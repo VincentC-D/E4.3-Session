@@ -2,6 +2,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { database } from "./model";
 import { renderTemplate } from "./view";
 import { getSession } from "./session";
+import { Session } from "inspector";
 
 export const getHome = async (req: IncomingMessage, res: ServerResponse) => {
     /**
@@ -11,6 +12,9 @@ export const getHome = async (req: IncomingMessage, res: ServerResponse) => {
      * 4. Set the response header "Set-Cookie" to the session id.
      * 5. End the response by rendering the HomeView template.
      */
+    let ses = getSession(req);
+
+    res.setHeader("Set-Cookie","session_id=" + ses.id);
 
     res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
